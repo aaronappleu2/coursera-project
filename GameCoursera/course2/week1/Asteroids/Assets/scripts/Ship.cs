@@ -39,14 +39,13 @@ public class Ship : MonoBehaviour
         }
         float newDirection = transform.eulerAngles.z * Mathf.Deg2Rad;
         thrustDirection = new Vector2(Mathf.Cos(newDirection), Mathf.Sin(newDirection));
-
     }
 
     // Calls to FixedUpdate
     void FixedUpdate()
     {
         wrapScreen();
-        if (Input.GetAxis("Thrust") !=0)
+        if (Input.GetAxis("Thrust") != 0)
         {
             shipRigidbody2D.AddForce(thrustDirection * ThrustForce, ForceMode2D.Force);
         }
@@ -64,14 +63,21 @@ public class Ship : MonoBehaviour
         {
             position.x = -position.x;
         }
-        else if(position.y +shipRadius > ScreenUtils.ScreenTop)
+        else if (position.y + shipRadius > ScreenUtils.ScreenTop)
         {
             position.y = -position.y;
         }
-        else if(position.y - shipRadius < ScreenUtils.ScreenBottom)
+        else if (position.y - shipRadius < ScreenUtils.ScreenBottom)
         {
             position.y = -position.y;
         }
         transform.position = position;
-    }  
+    }
+    void OnCollisionEnter2D(Collision2D col)
+    {
+        if (col.gameObject.tag == "Asteroid")
+        {
+            Destroy(gameObject);
+        }
+    }
 }
