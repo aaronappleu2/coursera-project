@@ -31,7 +31,7 @@ public class Asteroid : MonoBehaviour
 
         // apply impulse force to get game object moving
         const float MinImpulseForce = 1f;
-        const float MaxImpulseForce = 3f;
+        const float MaxImpulseForce = 2f;
         float rand = 15;
         float angle = 0;
 
@@ -69,6 +69,13 @@ public class Asteroid : MonoBehaviour
         
     }
 
-    // Update is called once per frame
- 
+    void OnCollisionEnter2D(Collision2D coll)
+    {
+        if (coll.gameObject.tag == "Bullet")
+        {
+            Destroy(gameObject);
+            Destroy(coll.gameObject);
+        }
+    }
+
 }

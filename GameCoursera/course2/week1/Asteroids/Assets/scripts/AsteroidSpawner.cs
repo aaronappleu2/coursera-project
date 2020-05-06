@@ -8,8 +8,11 @@ public class AsteroidSpawner : MonoBehaviour
     [SerializeField]
     GameObject prefabAsteroid;
 
-    // spawn control
+    public GameObject[] items;
 
+    // spawn control
+    const float SpawnDelay = 1;
+    Timer spawnTimer;
     // spawn location support
 
 
@@ -20,12 +23,28 @@ public class AsteroidSpawner : MonoBehaviour
         spawner(Direction.Down);
         spawner(Direction.Left);
         spawner(Direction.Right);
+
+        // create and start timer
+        spawnTimer = gameObject.AddComponent<Timer>();
+        spawnTimer.Duration = SpawnDelay;
+        spawnTimer.Run();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        items = GameObject.FindGameObjectsWithTag("Asteroid");
+        if (spawnTimer.Finished)
+        {
+            spawnTimer.Run();
+            if (items.Length < 1)
+            {
+                spawner(Direction.Up);
+                spawner(Direction.Down);
+                spawner(Direction.Left);
+                spawner(Direction.Right);
+            }
+        }
     }
     void spawner(Direction direction)
     {

@@ -338,3 +338,6 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+
+#Unity Library
+GameCoursera/course2/week1/Asteroids/Library

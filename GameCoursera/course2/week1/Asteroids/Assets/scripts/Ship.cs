@@ -5,6 +5,9 @@ using UnityEngine;
 // Control the ship
 public class Ship : MonoBehaviour
 {
+    [SerializeField]
+    GameObject prefabBullet;
+
     Rigidbody2D shipRigidbody2D;
     CircleCollider2D shipCircleCollider2D;
 
@@ -39,6 +42,15 @@ public class Ship : MonoBehaviour
         }
         float newDirection = transform.eulerAngles.z * Mathf.Deg2Rad;
         thrustDirection = new Vector2(Mathf.Cos(newDirection), Mathf.Sin(newDirection));
+
+        if(Input.GetKeyDown(KeyCode.LeftControl))
+        {
+            GameObject bullet = Instantiate(prefabBullet) as GameObject;
+            bullet.transform.position = transform.position;
+            bullet.transform.rotation = transform.rotation;
+            bullet.GetComponent<Bullet>().ApplyForce(thrustDirection);
+        }
+
     }
 
     // Calls to FixedUpdate
