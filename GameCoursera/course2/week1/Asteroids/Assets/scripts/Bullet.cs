@@ -5,7 +5,7 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     Timer liveTimer;
-    const float deathTime = 2.0f;
+    const float deathTime = 1.5f;
 
     public void ApplyForce(Vector2 direction)
     {

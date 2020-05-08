@@ -7,6 +7,8 @@ public class Ship : MonoBehaviour
 {
     [SerializeField]
     GameObject prefabBullet;
+    [SerializeField]
+    GameObject HUD;
 
     Rigidbody2D shipRigidbody2D;
     CircleCollider2D shipCircleCollider2D;
@@ -49,6 +51,7 @@ public class Ship : MonoBehaviour
             bullet.transform.position = transform.position;
             bullet.transform.rotation = transform.rotation;
             bullet.GetComponent<Bullet>().ApplyForce(thrustDirection);
+            AudioManager.Play(AudioClipName.PlayerShot);
         }
 
     }
@@ -89,6 +92,8 @@ public class Ship : MonoBehaviour
     {
         if (col.gameObject.tag == "Asteroid")
         {
+            HUD.GetComponent<HUD>().StopGameTimer();
+            AudioManager.Play(AudioClipName.PlayerDeath);
             Destroy(gameObject);
         }
     }

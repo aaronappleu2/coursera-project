@@ -5,15 +5,25 @@ using UnityEngine;
 public class ScreenWrapper : MonoBehaviour
 {
     // screen wrapping support
-    float shipRadius;
+    float Radius;
 
 
     // Start is called before the first frame update
     void Start()
     {
         // saved for efficiency
-
-        shipRadius = GetComponent<CircleCollider2D>().radius;
+        if(gameObject.tag =="Asteroid")
+        {
+            Radius = GetComponent<CircleCollider2D>().radius;
+        }
+        else if(gameObject.tag == "Bullet")
+        {
+            Radius = GetComponent<BoxCollider2D>().size.x;
+        }
+        else
+        {
+            Radius = GetComponent<CircleCollider2D>().radius;
+        }
     }
     // Called when the game object becomes invisible to the camera
     void FixedUpdate()
@@ -24,19 +34,19 @@ public class ScreenWrapper : MonoBehaviour
     {
         Vector3 position = transform.position;
 
-        if (position.x - shipRadius > ScreenUtils.ScreenRight)
+        if (position.x - Radius > ScreenUtils.ScreenRight)
         {
             position.x = -position.x;
         }
-        else if (position.x + shipRadius < ScreenUtils.ScreenLeft)
+        else if (position.x + Radius < ScreenUtils.ScreenLeft)
         {
             position.x = -position.x;
         }
-        else if (position.y - 1.1 * shipRadius > ScreenUtils.ScreenTop)
+        else if (position.y - 1.1 * Radius > ScreenUtils.ScreenTop)
         {
             position.y = -position.y;
         }
-        else if (position.y + 1.1 * shipRadius < ScreenUtils.ScreenBottom)
+        else if (position.y + 1.1 * Radius < ScreenUtils.ScreenBottom)
         {
             position.y = -position.y;
         }
