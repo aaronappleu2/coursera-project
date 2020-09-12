@@ -7,77 +7,113 @@ using UnityEngine;
 /// </summary>
 public static class ScreenUtils
 {
-	#region Fields
+    #region Fields
 
-	// cached for efficient boundary checking
-	static float screenLeft;
-	static float screenRight;
-	static float screenTop;
-	static float screenBottom;
+    // saved to support resolution changes
+    static int screenWidth;
+    static int screenHeight;
 
-	#endregion
+    // cached for efficient boundary checking
+    static float screenLeft;
+    static float screenRight;
+    static float screenTop;
+    static float screenBottom;
 
-	#region Properties
+    #endregion
 
-	/// <summary>
-	/// Gets the left edge of the screen in world coordinates
-	/// </summary>
-	/// <value>left edge of the screen</value>
-	public static float ScreenLeft
+    #region Properties
+
+    /// <summary>
+    /// Gets the left edge of the screen in world coordinates
+    /// </summary>
+    /// <value>left edge of the screen</value>
+    public static float ScreenLeft
     {
-		get { return screenLeft; }
-	}
+        get
+        {
+            CheckScreenSizeChanged();
+            return screenLeft;
+        }
+    }
 
-	/// <summary>
-	/// Gets the right edge of the screen in world coordinates
-	/// </summary>
-	/// <value>right edge of the screen</value>
-	public static float ScreenRight
+    /// <summary>
+    /// Gets the right edge of the screen in world coordinates
+    /// </summary>
+    /// <value>right edge of the screen</value>
+    public static float ScreenRight
     {
-		get { return screenRight; }
-	}
+        get
+        {
+            CheckScreenSizeChanged();
+            return screenRight;
+        }
+    }
 
-	/// <summary>
-	/// Gets the top edge of the screen in world coordinates
-	/// </summary>
-	/// <value>top edge of the screen</value>
-	public static float ScreenTop
+    /// <summary>
+    /// Gets the top edge of the screen in world coordinates
+    /// </summary>
+    /// <value>top edge of the screen</value>
+    public static float ScreenTop
     {
-		get { return screenTop; }
-	}
+        get
+        {
+            CheckScreenSizeChanged();
+            return screenTop;
+        }
+    }
 
-	/// <summary>
-	/// Gets the bottom edge of the screen in world coordinates
-	/// </summary>
-	/// <value>bottom edge of the screen</value>
-	public static float ScreenBottom
+    /// <summary>
+    /// Gets the bottom edge of the screen in world coordinates
+    /// </summary>
+    /// <value>bottom edge of the screen</value>
+    public static float ScreenBottom
     {
-		get { return screenBottom; }
-	}
+        get 
+        {
+            CheckScreenSizeChanged();
+            return screenBottom; 
+        }
+    }
 
-	#endregion
+    #endregion
 
-	#region Methods
+    #region Methods
 
-	/// <summary>
-	/// Initializes the screen utilities
-	/// </summary>
-	public static void Initialize()
+    /// <summary>
+    /// Initializes the screen utilities
+    /// </summary>
+    public static void Initialize()
     {
-		// save screen edges in world coordinates
-		float screenZ = -Camera.main.transform.position.z;
-		Vector3 lowerLeftCornerScreen = new Vector3(0, 0, screenZ);
-		Vector3 upperRightCornerScreen = new Vector3(
-			Screen.width, Screen.height, screenZ);
-		Vector3 lowerLeftCornerWorld = 
-			Camera.main.ScreenToWorldPoint(lowerLeftCornerScreen);
-		Vector3 upperRightCornerWorld = 
-			Camera.main.ScreenToWorldPoint(upperRightCornerScreen);
-		screenLeft = lowerLeftCornerWorld.x;
-		screenRight = upperRightCornerWorld.x;
-		screenTop = upperRightCornerWorld.y;
-		screenBottom = lowerLeftCornerWorld.y;
-	}
+        // save to support resolution changes
+        screenWidth = Screen.width;
+        screenHeight = Screen.height;
 
-	#endregion
+        // save screen edges in world coordinates
+        float screenZ = -Camera.main.transform.position.z;
+        Vector3 lowerLeftCornerScreen = new Vector3(0, 0, screenZ);
+        Vector3 upperRightCornerScreen = new Vector3(
+            screenWidth, screenHeight, screenZ);
+        Vector3 lowerLeftCornerWorld =
+            Camera.main.ScreenToWorldPoint(lowerLeftCornerScreen);
+        Vector3 upperRightCornerWorld =
+            Camera.main.ScreenToWorldPoint(upperRightCornerScreen);
+        screenLeft = lowerLeftCornerWorld.x;
+        screenRight = upperRightCornerWorld.x;
+        screenTop = upperRightCornerWorld.y;
+        screenBottom = lowerLeftCornerWorld.y;
+    }
+
+    /// <summary>
+    /// Checks for screen size change
+    /// </summary>
+    static void CheckScreenSizeChanged()
+    {
+        if (screenWidth != Screen.width ||
+            screenHeight != Screen.height)
+        {
+            Initialize();
+        }
+    }
+
+    #endregion
 }

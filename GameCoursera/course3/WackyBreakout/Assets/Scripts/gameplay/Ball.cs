@@ -1,33 +1,42 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Numerics;
 using UnityEngine;
 
-using Vector2 = UnityEngine.Vector2;
-
+/// <summary>
+/// A ball
+/// </summary>
 public class Ball : MonoBehaviour
 {
-    Rigidbody2D ballrigidbody2D;
-    float angle = -90;
+	/// <summary>
+	/// Use this for initialization
+	/// </summary>
+	void Start()
+	{
+		// get the ball moving
+        float angle = -90 * Mathf.Deg2Rad;
+        Vector2 force = new Vector2(
+            ConfigurationUtils.BallImpulseForce * Mathf.Cos(angle),
+            ConfigurationUtils.BallImpulseForce * Mathf.Sin(angle));
+        GetComponent<Rigidbody2D>().AddForce(force);
+	}
+	
+	/// <summary>
+	/// Update is called once per frame
+	/// </summary>
+	void Update()
+	{
+		
+	}
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        ballrigidbody2D = GetComponent<Rigidbody2D>();
-        Vector2 thrustDirection = new Vector2(
-            Mathf.Cos(angle * Mathf.Deg2Rad), 
-            Mathf.Sin(angle * Mathf.Deg2Rad));
-        GetComponent<Rigidbody2D>().AddForce(thrustDirection * ConfigurationUtils.BallImpulseForce);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
+    /// <summary>
+    /// Sets the ball direction to the given direction
+    /// </summary>
+    /// <param name="direction">direction</param>
     public void SetDirection(Vector2 direction)
     {
-        float currentSpeed = ballrigidbody2D.velocity.magnitude;
-        ballrigidbody2D.velocity = direction * currentSpeed;
+        // get current rigidbody speed
+        Rigidbody2D rb2d = GetComponent<Rigidbody2D>();
+        float speed = rb2d.velocity.magnitude;
+        rb2d.velocity = direction * speed;
     }
 }

@@ -2,22 +2,36 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// A block
+/// </summary>
 public class Block : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+	/// <summary>
+	/// Use this for initialization
+	/// </summary>
+	void Start()
+	{
+		
+	}
+	
+	/// <summary>
+	/// Update is called once per frame
+	/// </summary>
+	void Update()
+	{
+		
+	}
 
-    // Update is called once per frame
-    void Update()
+    /// <summary>
+    /// Destroys the block on collision with a ball
+    /// </summary>
+    /// <param name="coll">Coll.</param>
+    void OnCollisionEnter2D(Collision2D coll)
     {
-        
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        Destroy(gameObject);
+        if (coll.gameObject.CompareTag("Ball"))
+        {
+            Destroy(gameObject);
+        }
     }
 }
